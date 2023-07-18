@@ -1,5 +1,6 @@
 import { DiscDTO } from "~/types";
 import { format, parse } from "date-fns";
+import process from "process";
 
 function isEmpty(str?: string | null): boolean {
   return !str || str.length === 0;
@@ -21,8 +22,7 @@ const indexes = {
 // Kiekko	Valmistaja	Väri	Nimi	Puhelinnumero	Lisätty		Kirjaaja	Puh. Nro	email	Palautettu	Ei halua takaisin	Muuta	Rata Id
 
 export async function importDiscData(): Promise<DiscDTO[]> {
-  const url =
-    "https://sheets.googleapis.com/v4/spreadsheets/1dyROkBCcHPySBqnB093Pmcvv0Wp4oAFw7PnhHa0GBD0/values/Oittaa?valueRenderOption=FORMATTED_VALUE&key=";
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/1dyROkBCcHPySBqnB093Pmcvv0Wp4oAFw7PnhHa0GBD0/values/Oittaa?valueRenderOption=FORMATTED_VALUE&key=${process.env.PUSKASOTURIT_SHEETS_KEY}`;
 
   const PUSKASOTURIT_ID = 1;
 

@@ -20,8 +20,7 @@ const indexes = {
   CAN_BE_SOLD_OR_DONATED: 12,
 };
 export async function importDiscData(): Promise<DiscDTO[]> {
-  const url =
-    "https://sheets.googleapis.com/v4/spreadsheets/1_E4YYH5RfejSL14LB4AVa4wxPJ9djuNbwsGulhevy0s/values/Master?valueRenderOption=FORMATTED_VALUE&key=AIzaSyAHTi6z0VJ2s2EaQfYIjoIPSQJQll-2E_g";
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/1_E4YYH5RfejSL14LB4AVa4wxPJ9djuNbwsGulhevy0s/values/Master?valueRenderOption=FORMATTED_VALUE&key=${process.env.TT_SHEETS_KEY}`;
 
   const res = await fetch(url);
 
