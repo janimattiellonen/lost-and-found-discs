@@ -1,12 +1,11 @@
-import {DiscDTO} from "~/types";
-import {format, parse} from "date-fns";
+import { DiscDTO } from "~/types";
+import { format, parse } from "date-fns";
 
 function isEmpty(str?: string | null): boolean {
-  return !str || str.length === 0
+  return !str || str.length === 0;
 }
 
 const indexes = {
-
   DISC_NAME: 0,
   DISC_MANUFACTURER: 1,
   DISC_COLOUR: 2,
@@ -18,21 +17,20 @@ const indexes = {
   ADDITIONAL_INFO: 12,
   COURSE: 13,
   INTERNAL_DISC_ID: 14,
-}
+};
 // Kiekko	Valmistaja	Väri	Nimi	Puhelinnumero	Lisätty		Kirjaaja	Puh. Nro	email	Palautettu	Ei halua takaisin	Muuta	Rata Id
 
-
 export async function importDiscData(): Promise<DiscDTO[]> {
-  const url = 'https://sheets.googleapis.com/v4/spreadsheets/1dyROkBCcHPySBqnB093Pmcvv0Wp4oAFw7PnhHa0GBD0/values/Oittaa?valueRenderOption=FORMATTED_VALUE&key=AIzaSyBl4qqYyF0R4jjfDOU7eRPAPpRx9DoTmk4';
+  const url =
+    "https://sheets.googleapis.com/v4/spreadsheets/1dyROkBCcHPySBqnB093Pmcvv0Wp4oAFw7PnhHa0GBD0/values/Oittaa?valueRenderOption=FORMATTED_VALUE&key=";
 
   const PUSKASOTURIT_ID = 1;
 
   const res = await fetch(url);
 
-  const data = await res.json()
+  const data = await res.json();
 
-  console.info(`Puskasoturit, DATA: ${JSON.stringify(data.values, null, 2)}`)
-
+  console.info(`Puskasoturit, DATA: ${JSON.stringify(data.values, null, 2)}`);
 
   const {
     DISC_NAME,
@@ -46,14 +44,25 @@ export async function importDiscData(): Promise<DiscDTO[]> {
     ADDITIONAL_INFO,
     COURSE,
     INTERNAL_DISC_ID,
-  } = indexes
+  } = indexes;
 
-  const filteredValues = data.values.slice(1).filter( (item: any) => item[INTERNAL_DISC_ID] !== '' && !isEmpty(item[DISC_NAME]) && !isEmpty(item[ADDED_AT]))
+  const filteredValues = data.values
+    .slice(1)
+    .filter(
+      (item: any) =>
+        item[INTERNAL_DISC_ID] !== "" &&
+        !isEmpty(item[DISC_NAME]) &&
+        !isEmpty(item[ADDED_AT])
+    );
 
-  const discs: DiscDTO[] = filteredValues.map( (item: any) => {
+  const discs: DiscDTO[] = filteredValues.map((item: any) => {
     console.log(`DATE IS: ${item[ADDED_AT]}`);
-    const f = item[ADDED_AT] ? format(parse(item[ADDED_AT] ? item[ADDED_AT]  : "", "dd/MM/y", new Date()), "y-MM-dd") : null;
-
+    const f = item[ADDED_AT]
+      ? format(
+          parse(item[ADDED_AT] ? item[ADDED_AT] : "", "dd/MM/y", new Date()),
+          "y-MM-dd"
+        )
+      : null;
 
     return {
       discName: item[DISC_NAME],
@@ -63,17 +72,21 @@ export async function importDiscData(): Promise<DiscDTO[]> {
       ownerPhoneNumber: item[OWNER_PHONE_NUMBER],
       additionalInfo: item[ADDITIONAL_INFO],
       //addedAt: '2023-02-023',
-      addedAt: item[ADDED_AT] ? format(parse(item[ADDED_AT] ? item[ADDED_AT]  : "", "dd/MM/y", new Date()), "y-MM-dd") : null,
+      addedAt: item[ADDED_AT]
+        ? format(
+            parse(item[ADDED_AT] ? item[ADDED_AT] : "", "dd/MM/y", new Date()),
+            "y-MM-dd"
+          )
+        : null,
       isReturnedToOwner: !isEmpty(item[IS_RETURNED_TO_OWNER]) ? true : false,
       returnedToOwnerText: item[IS_RETURNED_TO_OWNER],
-      canBeSoldOrDonated: !isEmpty(item[CAN_BE_SOLD_OR_DONATED]) ? true : false ,
+      canBeSoldOrDonated: !isEmpty(item[CAN_BE_SOLD_OR_DONATED]) ? true : false,
       canBeSoldOrDonatedText: item[CAN_BE_SOLD_OR_DONATED],
       course: item[COURSE],
       internalDiscId: item[INTERNAL_DISC_ID],
       clubId: PUSKASOTURIT_ID,
-    }
-  })
+    };
+  });
 
-
-  return discs
+  return discs;
 }

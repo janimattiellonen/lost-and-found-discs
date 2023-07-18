@@ -1,5 +1,3 @@
-// https://sheets.googleapis.com/v4/spreadsheets/1SOMALdu_MRXIZtZ-6ewMuRRfd6Z5YDOsqKQEv-sXE0U/values/Api?valueRenderOption=FORMATTED_VALUE&key=AIzaSyAHTi6z0VJ2s2EaQfYIjoIPSQJQll-2E_g
-
 import { createConnection } from "~/models/utils";
 import * as process from "process";
 
