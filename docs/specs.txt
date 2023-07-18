@@ -1,0 +1,26 @@
+https://hackernoon.com/how-to-use-graphql-with-the-remix-framework
+
+Tarvittavat tietokantakentät
+
+discs
+- id
+- createdAt
+- updatedAt
+- discName
+- discColour
+- discManufacturer
+- ownerName
+- ownerPhoneNumber
+- ownerEmailAddress
+- club
+- notifiedAt
+- additionalInfo
+- isReturnedToOwner
+- canBeSelledOrDonated
+- clubId // allows us to have separate disc date for several clubs
+
+club
+- id
+- createdAt
+- updatedAt
+- name
